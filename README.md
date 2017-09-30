@@ -1,16 +1,15 @@
-<<<<<<< HEAD
-# e-communaut
+# e-group
 
-This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 4.0.5.
+This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) 
 
 ## Getting Started
 
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Node.js and npm](nodejs.org) Node >= 4.x.x, npm >= 2.x.x
+- [Node.js and npm](nodejs.org) Node >= 6.2.x, npm >= 3.9.x
 - [Gulp](http://gulpjs.com/) (`npm install --global gulp`)
-- [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
+- [MongoDB](https://www.mongodb.org/) Mongo >= 3.4
 
 ### Developing
 
@@ -29,4 +28,4 @@ Run `gulp build` for building and `gulp serve` for preview.
 Running `npm test` will run the unit tests with karma.
 =======
 # e-group
->>>>>>> e-group/master
+

@@ -55,7 +55,7 @@ var all = {
       end_session_endpoint: `${process.env.OPENID_ISSUER}/session/end`
     },
     client: {
-      client_id: process.env.OPENDID_CLIENT_ID || 'e-communaut',
+      client_id: process.env.OPENDID_CLIENT_ID || 'e-group',
       client_secret: process.env.OPENDID_CLIENT_SECRET || 'NotSoSecret',
       redirect_uris: [`${process.env.DOMAIN || ''}/auth/openid/callback`],
     }
