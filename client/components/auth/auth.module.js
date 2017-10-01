@@ -16,6 +16,10 @@ import {
 import {
   UserResource
 } from './user.service';
+import {
+  GroupResource
+}
+from './group.service';
 
 import uiRouter from 'angular-ui-router';
 
@@ -30,5 +34,6 @@ export default angular.module('eCommunautApp.auth', [constants, util, ngCookies,
   .run(routerDecorator)
   .factory('Auth', AuthService)
   .factory('User', UserResource)
+  .factory('Group', GroupResource)
   .config(['$httpProvider', addInterceptor])
   .name;

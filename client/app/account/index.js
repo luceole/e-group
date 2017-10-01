@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-
+import uiBootstrap from 'angular-ui-bootstrap'
 import uiRouter from 'angular-ui-router';
 
 import routing from './account.routes';
@@ -9,7 +9,7 @@ import login from './login';
 import settings from './settings';
 import signup from './signup';
 
-export default angular.module('eCommunautApp.account', [uiRouter, login, settings, signup])
+export default angular.module('eCommunautApp.account', [uiRouter, uiBootstrap,login, settings, signup])
   .config(routing)
   .run(function($rootScope) {
     'ngInject';

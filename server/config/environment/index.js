@@ -44,7 +44,7 @@ var all = {
         safe: true
       }
     }
-    },
+  },
   openid: {
     issuer: {
       issuer: process.env.OPENID_ISSUER,
