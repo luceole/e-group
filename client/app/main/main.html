@@ -29,17 +29,18 @@
       </div>
       <div ng-if="false">Agenda de vos groupes
         <button ng-click="refreshEvents()">Recharger </button>
-        <div ui-calendar="uiConfig.calendar" id="calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar" calendar-watch-event="watchColor"></div></div>
-
-        <div init-toolbar="">
-
-        </div>
-
-        <div class="alert alert-success" align="center" ng-if="alert.msg"> {{alert.msg}}</div>
+        <div ui-calendar="uiConfig.calendar" id="calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar" calendar-watch-event="watchColor"></div>
       </div>
-      <div class="alert alert-warning" ng-if="!$ctrl.getCurrentUser().isactif"> Votre compte est en attende de validation par le modérateur </div>
+
+      <div init-toolbar="">
+
+      </div>
+
+      <div class="alert alert-success" align="center" ng-if="alert.msg"> {{alert.msg}}</div>
     </div>
-  
+    <div class="alert alert-warning" ng-if="!$ctrl.getCurrentUser().isactif"> Votre compte est en attende de validation par le modérateur </div>
+  </div>
+
 </div>
 <div ng-include="'components/footer/footer.html'"></div>
 <script type="text/ng-template" id="modalNote.html">
@@ -47,18 +48,18 @@
     <button class="glyphicon glyphicon-remove pull-right" ng-click="NC.cancel()">
         </button></h3>
   <div class="modal-body">
-    <div ng-show="NC.isAdmin_grp()">
-      
+    <div ng-show="NC.isAdminOf(NC.groupe)">
+
       <div ckeditor="options" ng-model="NC.groupe.note">
       </div>
       <div class="modal-footer">
         <div class="alert alert-success" align="center" ng-if="msg"> {{msg}}
         </div>
-         <button class="glyphicon glyphicon-save" ng-click="NC.save()">
-            </button> 
+        <button class="glyphicon glyphicon-save" ng-click="NC.save()">
+            </button>
       </div>
     </div>
-    <div ng-show="!NC.isAdmin_grp()">
+    <div ng-show="!NC.isAdminOf(NC.groupe)">
       <div ng-bind-html="NC.groupe.note"></div>
     </div>
 

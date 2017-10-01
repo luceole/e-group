@@ -9,7 +9,9 @@ export class NoteComponent {
   /*@ngInject*/
   constructor(Group, Auth, $uibModalInstance, grp) {
     //'ngInject';
-    this.groupe = new Group(grp);
+
+    this.groupe = new Group(grp)
+
     this.Auth = Auth;
     this.options = {
       language: 'fr',
@@ -18,17 +20,24 @@ export class NoteComponent {
       width: '98%',
       height: 400
     };
+
     this.isAdmin = Auth.isAdmin;
     this.isAdmin_grp = Auth.isAdmin_grp;
     this.$uibModalInstance = $uibModalInstance;
     this.msg = "Un Message";
   }
+
+  isAdminOf(grp) {
+    console.log(grp);
+    return this.Auth.getCurrentUserSync().adminOf.find(o => o._id === grp._id)
+  }
+
   cancel() {
     this.$uibModalInstance.dismiss('cancel');
   };
 
   save() {
-    console.log(this.groupe)
+
     this.Auth.updateGroup(this.groupe._id, this.groupe)
       .then((r) => {
         this.$uibModalInstance.close();
