@@ -4,33 +4,26 @@ import uiRouter from 'angular-ui-router';
 import modal from 'angular-ui-bootstrap/src/modal';
 import routing from './main.routes';
 
-
 export class NoteComponent {
   /*@ngInject*/
   constructor(Group, Auth, $uibModalInstance, grp) {
     //'ngInject';
-
-    this.groupe = new Group(grp)
-
+    this.groupe = grp
     this.Auth = Auth;
     this.options = {
       language: 'fr',
       // uiColor: "#66AB16",
-      readOnly: true,
+      //readOnly: true,
       width: '98%',
       height: 400
     };
-
     this.isAdmin = Auth.isAdmin;
     this.isAdmin_grp = Auth.isAdmin_grp;
+    this.isAdminOf = this.Auth.getCurrentUserSync().adminOf.find(o => o._id === this.groupe._id)
     this.$uibModalInstance = $uibModalInstance;
-    this.msg = "Un Message";
+    this.msg = "";
   }
 
-  isAdminOf(grp) {
-    console.log(grp);
-    return this.Auth.getCurrentUserSync().adminOf.find(o => o._id === grp._id)
-  }
 
   cancel() {
     this.$uibModalInstance.dismiss('cancel');
@@ -44,7 +37,7 @@ export class NoteComponent {
       })
       .catch((err) => {
         console.log(err)
-        this.msg = "Erreur :" + err.data;
+        this.msg = "Erreur :" + err.statusText;
       });
   };
 

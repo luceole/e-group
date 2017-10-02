@@ -10,8 +10,8 @@
     pour utiliser ce service.<br> Vous devez avoir un compte<br>
     <a href="http://localhost:3000">Libre-Communauté
   </center></a>
-
 </div>
+
 <div class="container" ng-if="$ctrl.isLoggedIn()">
   <div class="row">
     <div class="col-lg-12">
@@ -26,40 +26,46 @@
 
           </li>
         </ul>
-      </div>
-      <div ng-if="false">Agenda de vos groupes
-        <button ng-click="refreshEvents()">Recharger </button>
-        <div ui-calendar="uiConfig.calendar" id="calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar" calendar-watch-event="watchColor"></div>
-      </div>
 
-      <div init-toolbar="">
+        <div ng-if="false">Agenda de vos groupes
+          <button ng-click="refreshEvents()">Recharger </button>
+          <div ui-calendar="uiConfig.calendar" id="calendar" class="span8 calendar" ng-model="eventSources" calendar="myCalendar" calendar-watch-event="watchColor"></div>
+        </div>
 
+        <div init-toolbar="">
+
+        </div>
+
+        <div class="alert alert-success" align="center" ng-if="alert.msg"> {{alert.msg}}</div>
       </div>
-
-      <div class="alert alert-success" align="center" ng-if="alert.msg"> {{alert.msg}}</div>
+      <div class="alert alert-warning" ng-if="!$ctrl.getCurrentUser().isactif"> Votre compte est en attende de validation par le modérateur </div>
     </div>
-    <div class="alert alert-warning" ng-if="!$ctrl.getCurrentUser().isactif"> Votre compte est en attende de validation par le modérateur </div>
   </div>
 
 </div>
 <div ng-include="'components/footer/footer.html'"></div>
+
+
+
+
+
+
+
 <script type="text/ng-template" id="modalNote.html">
   <h3 class="modal-title"> Note du groupe: {{NC.groupe.info}}
     <button class="glyphicon glyphicon-remove pull-right" ng-click="NC.cancel()">
         </button></h3>
   <div class="modal-body">
-    <div ng-show="NC.isAdminOf(NC.groupe)">
-
-      <div ckeditor="options" ng-model="NC.groupe.note">
-      </div>
+    <div ng-show="NC.isAdminOf">
+      <div ckeditor="options" ng-model="NC.groupe.note"> </div>
       <div class="modal-footer">
-        <div class="alert alert-success" align="center" ng-if="msg"> {{msg}}
+        <div class="alert alert-success" align="center" ng-if="NC.msg"> {{NC.msg}}
         </div>
         <button class="glyphicon glyphicon-save" ng-click="NC.save()">
             </button>
       </div>
     </div>
-    <div ng-show="!NC.isAdminOf(NC.groupe)">
+    <div ng-show="!NC.isAdminOf">
       <div ng-bind-html="NC.groupe.note"></div>
     </div>
 
