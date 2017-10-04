@@ -6,6 +6,7 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import 'angular-socket-io';
+import 'angular-utils-pagination';
 
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
@@ -31,16 +32,16 @@ import socket from '../components/socket/socket.service';
 import './app.scss';
 
 angular.module('eCommunautApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter, ckeditor,
-    uiBootstrap, _Auth, account,  navbar, footer, main, constants, socket, util
+    uiBootstrap, _Auth, account, navbar, footer, main, constants, socket, util, 'angularUtils.directives.dirPagination',
   ])
   .config(routeConfig)
-  .run(function($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth) {
     'ngInject';
     // Redirect to login if route requires auth and you're not logged in
 
-    $rootScope.$on('$stateChangeStart', function(event, next) {
-      Auth.isLoggedIn(function(loggedIn) {
-        if(next.authenticate && !loggedIn) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+      Auth.isLoggedIn(function (loggedIn) {
+        if (next.authenticate && !loggedIn) {
           $location.path('/login');
         }
       });

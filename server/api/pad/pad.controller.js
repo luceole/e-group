@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/groups              ->  index
- * POST    /api/groups              ->  create
- * GET     /api/groups/:id          ->  show
- * PUT     /api/groups/:id          ->  upsert
- * PATCH   /api/groups/:id          ->  patch
- * DELETE  /api/groups/:id          ->  destroy
+ * GET     /api/pads              ->  index
+ * POST    /api/pads              ->  create
+ * GET     /api/pads/:id          ->  show
+ * PUT     /api/pads/:id          ->  upsert
+ * PATCH   /api/pads/:id          ->  patch
+ * DELETE  /api/pads/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Group from './group.model';
+import Pad from './pad.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -63,36 +63,49 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Groups
+// Gets a list of Pads
 export function index(req, res) {
-  return Group.find().exec()
+  return Pad.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Group from the DB
+// Gets a single Pad from the DB
 export function show(req, res) {
-  return Group.findById(req.params.id).exec()
+  return Pad.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Group in the DB
+// Creates a new Pad in the DB
 export function create(req, res) {
-  return Group.create(req.body)
+  console.log("openPad");
+  console.log(req.body);
+  var args = {
+    groupID: req.body.groupID,
+    authorID: req.body.authorID,
+    validUntil: Math.floor(Date.now() / 1000) + 6000,
+  }
+  etherpad.createSession(args,
+    function (error, data) {
+      if (error) console.error('Error creating Session on PAD: ' + error.message)
+      else {
+        console.log('New pad Session created: ' + data.sessionID)
+      }
+      return res.json(200, data);
+    });
+  /*return Pad.create(req.body)
     .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+    .catch(handleError(res));*/
 }
 
-// Upserts the given Group in the DB at the specified ID
+// Upserts the given Pad in the DB at the specified ID
 export function upsert(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  console.log("Upsert Groupe");
-  console.log(req.body);
-  return Group.findOneAndUpdate({
+  return Pad.findOneAndUpdate({
       _id: req.params.id
     }, req.body, {
       upsert: true,
@@ -104,37 +117,22 @@ export function upsert(req, res) {
     .catch(handleError(res));
 }
 
-// Updates an existing Group in the DB
+// Updates an existing Pad in the DB
 export function patch(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return Group.findById(req.params.id).exec()
+  return Pad.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a Group from the DB
+// Deletes a Pad from the DB
 export function destroy(req, res) {
-  return Group.findById(req.params.id).exec()
+  return Pad.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
 }
-
-// Get list of open groupes
-export function isopen(req, res) {
-  console.log("IsOpen")
-  Group.find({
-      type: {
-        $lt: 10
-      }
-    })
-    .populate('owner', 'uid')
-    .populate('participants', 'uid')
-    .exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-};

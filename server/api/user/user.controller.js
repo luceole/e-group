@@ -1,6 +1,7 @@
 'use strict';
 
 import User from './user.model';
+import Group from '../group/group.model';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 
@@ -24,7 +25,7 @@ function handleError(res, statusCode) {
  */
 export function index(req, res) {
   return User.find({}, '-salt -password')
-    .populate('memberOf', 'name info')
+    .populate('memberOf', 'name info groupPadID')
     .exec()
     .then(users => {
       res.status(200).json(users);
@@ -116,7 +117,7 @@ export function me(req, res, next) {
       _id: userId
     }, '-salt -password')
     .populate('memberOf', 'info note  groupPadID name')
-    .populate('adminOf', 'info note name')
+    .populate('adminOf', 'info note groupPadID name')
     .exec()
     .then(user => { // don't ever give out the password or salt
       if (!user) {
@@ -133,3 +134,55 @@ export function me(req, res, next) {
 export function authCallback(req, res) {
   res.redirect('/');
 }
+export function addusergroup(req, res) {
+  var userId = req.params.id;
+  var groupId = String(req.body.idGroup);
+  return User.findById(userId)
+    .populate('memberOf', 'info')
+    .exec()
+    .then(user => {
+      user.memberOf.push(groupId);
+      return user.save()
+        .then(user => {
+          Group.findById(groupId, function (err, group) {
+            if (err) {
+              return err;
+            }
+            group.participants.push(userId);
+            group.save(function (err) {
+              if (err) {
+                return err;
+              }
+              return res.json(200, user);
+            });
+          });
+        });
+    });
+};
+
+export function delusergroup(req, res) {
+  var userId = req.params.id;
+  var groupId = String(req.body.idGroup);
+  return User.findById(userId, '-salt -hashedPassword')
+    .populate('memberOf', 'info')
+    .exec()
+    .then(user => {
+      user.memberOf.pull(groupId);
+      return user.save()
+        .then(user => {
+          Group.findById(groupId, function (err, group) {
+            if (err) {
+              return err;
+            }
+            group.participants.pull(userId);
+            group.save(function (err) {
+              if (err) {
+                return err;
+              }
+              console.log(user.memberOf);
+              return res.json(200, user);
+            });
+          });
+        });
+    });
+};

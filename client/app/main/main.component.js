@@ -46,9 +46,10 @@ export class NoteComponent {
 
 export class MainController {
   /* @ngInject */
-  constructor($http, $scope, $state, $stateParams, $window, socket, $uibModal, Auth, Group) {
-
+  constructor($http, $scope, $state, $stateParams, $cookies, $window, socket, $uibModal, Auth, Group) {
     this.$http = $http;
+    this.$cookies = $cookies;
+    this.$window = $window;
     this.socket = socket;
     this.Auth = Auth;
     this.Group = Group;
@@ -75,10 +76,26 @@ export class MainController {
       }
     });
   }
+
+  openPad(grp) {
+
+    console.log(this.getCurrentUser());
+    var auhorID = this.getCurrentUser().authorPadID;
+    this.$http.post('/api/pads', {
+      authorID: auhorID,
+      groupID: grp.groupPadID
+    }).success((data) => {
+      if (data) {
+        console.log(data)
+        this.$cookies.put('sessionID', data.sessionID);
+        this.$window.open('//localhost:9001/p/' + grp.groupPadID + "$" + grp.name + "?userName=" + this.getCurrentUser().name);
+      } else alert("Pad  non trouvé ou vous n'êtes pas autorisé");
+    }).error(function (err) {
+      console.log("err :" + err)
+      alert("Serveur Pad  non actif");
+    });
+  };
 }
-
-
-
 
 export default angular.module('eCommunautApp.main', [uiRouter])
   .config(routing)

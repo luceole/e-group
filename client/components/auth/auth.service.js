@@ -75,7 +75,36 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
         }).$promise;
     },
 
+    addUserGroup(idGroup, callback) {
+      return User.addusergroup({
+          id: currentUser._id
+        }, {
+          idGroup: idGroup
+        },
+        function (user) {
+          currentUser = User.get();
+          return safeCb(callback)(null, user);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
 
+    delUserGroup(idGroup, callback) {
+      var cb = callback || angular.noop;
+      return User.delusergroup({
+          id: currentUser._id
+        }, {
+          idGroup: idGroup
+        },
+        function (user) {
+          currentUser = User.get();
+          return safeCb(callback)(null, user);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
     /**
      * Create a new user
      *

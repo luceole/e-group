@@ -17,6 +17,18 @@ export function UserResource($resource) {
       params: {
         id: 'me'
       }
+    },
+    addusergroup: {
+      method: 'PUT',
+      params: {
+        controller: 'addusergroup'
+      }
+    },
+    delusergroup: {
+      method: 'PUT',
+      params: {
+        controller: 'delusergroup'
+      }
     }
   });
 }

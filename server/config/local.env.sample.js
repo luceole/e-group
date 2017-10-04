@@ -8,6 +8,13 @@
 module.exports = {
   DOMAIN: 'http://localhost:9000',
   SESSION_SECRET: 'ecommunaut-secret',
+  /*
+   etherpad: {
+   apikey: 'ab5bf2',
+   host: 'localhost',
+   port: '9001'
+   },
+   */
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''

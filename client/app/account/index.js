@@ -9,13 +9,13 @@ import login from './login';
 import settings from './settings';
 import signup from './signup';
 
-export default angular.module('eCommunautApp.account', [uiRouter, uiBootstrap,login, settings, signup])
+export default angular.module('eCommunautApp.account', [uiRouter, uiBootstrap, login, settings, signup])
   .config(routing)
-  .run(function($rootScope) {
+  .run(function ($rootScope) {
     'ngInject';
 
-    $rootScope.$on('$stateChangeStart', function(event, next, nextParams, current) {
-      if(next.name === 'logout' && current && current.name && !current.authenticate) {
+    $rootScope.$on('$stateChangeStart', function (event, next, nextParams, current) {
+      if (next.name === 'logout' && current && current.name && !current.authenticate) {
         next.referrer = current.name;
       }
     });
