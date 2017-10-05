@@ -73,6 +73,6 @@ export function Modal($rootScope, $uibModal) {
   };
 }
 
-export default angular.module('eCommunautApp')
+export default angular.module('eGroup')
   .factory('Modal', Modal)
   .name;

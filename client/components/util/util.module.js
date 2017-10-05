@@ -5,6 +5,6 @@ import {
   UtilService
 } from './util.service';
 
-export default angular.module('eCommunautApp.util', [])
+export default angular.module('eGroup.util', [])
   .factory('Util', UtilService)
   .name;

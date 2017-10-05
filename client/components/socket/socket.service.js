@@ -80,6 +80,6 @@ function Socket(socketFactory) {
   };
 }
 
-export default angular.module('eCommunautApp.socket', [])
+export default angular.module('eGroup.socket', [])
   .factory('socket', Socket)
   .name;

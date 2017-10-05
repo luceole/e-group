@@ -9,7 +9,7 @@ import login from './login';
 import settings from './settings';
 import signup from './signup';
 
-export default angular.module('eCommunautApp.account', [uiRouter, uiBootstrap, login, settings, signup])
+export default angular.module('eGroup.account', [uiRouter, uiBootstrap, login, settings, signup])
   .config(routing)
   .run(function ($rootScope) {
     'ngInject';

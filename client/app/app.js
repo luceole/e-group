@@ -31,7 +31,7 @@ import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('eCommunautApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter, ckeditor,
+angular.module('eGroup', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter, ckeditor,
     uiBootstrap, _Auth, account, navbar, footer, main, constants, socket, util, 'angularUtils.directives.dirPagination',
   ])
   .config(routeConfig)
@@ -50,7 +50,7 @@ angular.module('eCommunautApp', [ngCookies, ngResource, ngSanitize, 'btford.sock
 
 angular.element(document)
   .ready(() => {
-    angular.bootstrap(document, ['eCommunautApp'], {
+    angular.bootstrap(document, ['eGroup'], {
       strictDi: true
     });
   });

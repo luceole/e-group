@@ -5,7 +5,7 @@ import angular from 'angular';
 /**
  * Removes server error when user updates input
  */
-angular.module('eCommunautApp')
+angular.module('eGroup')
   .directive('mongooseError', function() {
     return {
       restrict: 'A',
