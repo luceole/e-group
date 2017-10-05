@@ -97,7 +97,7 @@ export class MainController {
   };
 }
 
-export default angular.module('eCommunautApp.main', [uiRouter])
+export default angular.module('eGroup.main', [uiRouter])
   .config(routing)
   .component('main', {
     template: require('./main.html'),

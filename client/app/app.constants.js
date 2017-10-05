@@ -2,6 +2,6 @@
 
 import angular from 'angular';
 
-export default angular.module('eCommunautApp.constants', [])
+export default angular.module('eGroup.constants', [])
   .constant('appConfig', require('../../server/config/environment/shared'))
   .name;

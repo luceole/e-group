@@ -3,6 +3,6 @@
 import angular from 'angular';
 import SettingsController from './settings.controller';
 
-export default angular.module('eCommunautApp.settings', [])
+export default angular.module('eGroup.settings', [])
   .controller('SettingsController', SettingsController)
   .name;
