@@ -57,7 +57,7 @@ var all = {
     client: {
       client_id: process.env.OPENDID_CLIENT_ID || 'e-group',
       client_secret: process.env.OPENDID_CLIENT_SECRET || 'NotSoSecret',
-      redirect_uris: [`${process.env.DOMAIN || ''}/auth/openid/callback`],
+      redirect_uris: [`${process.env.DOMAIN || ''}/auth/openid/callback`]
     }
   }
 };

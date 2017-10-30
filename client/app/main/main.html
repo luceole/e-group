@@ -1,8 +1,8 @@
 <div ng-show="!$ctrl.isLoggedIn()">
   <header class="hero-unit" id="banner">
     <div class="container">
-      <h1>Libre Communauté </h1>
-      <p class="lead">ECO-système Libre </p>
+      <h1>{{$ctrl.TitreSite}}</h1>
+      <p class="lead">{{$ctrl.DeviseSite}}</p>
       <img src="assets/images/LogoPLLPt.png " alt="Pôle Logiciels Libres">
     </div>
   </header>
@@ -27,7 +27,6 @@
         <tr dir-paginate="group in $ctrl.getCurrentUser().memberOf | orderBy: 'name'| filter:search:strict | itemsPerPage : '12' ">
           <td>
             <button class="btn  btn-default btn-sm btn-primary" ng-click="$ctrl.openNote(group)"><span class="glyphicon .glyphicon-info-sign"></span>Informations </button>
-
             <button class="btn  btn-default btn-sm  btn-primary" ng-click="$ctrl.openPad(group)">EtherPAD</button>
           </td>
           <td>
@@ -58,11 +57,6 @@
 <div ng-include=" 'components/footer/footer.html' "></div>
 
 
-
-
-
-
-
 <script type="text/ng-template " id="modalNote.html ">
   <h3 class="modal-title "> Note du groupe: {{NC.groupe.info}}
     <button class="glyphicon glyphicon-remove pull-right " ng-click="NC.cancel() ">
@@ -80,6 +74,5 @@
     <div ng-show="!NC.isAdminOf ">
       <div ng-bind-html="NC.groupe.note "></div>
     </div>
-
   </div>
 </script>

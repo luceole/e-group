@@ -15,6 +15,7 @@ import Group from './group.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
+
   return function (entity) {
     if (entity) {
       return res.status(statusCode).json(entity);
@@ -73,6 +74,14 @@ export function index(req, res) {
 // Gets a single Group from the DB
 export function show(req, res) {
   return Group.findById(req.params.id).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+export function showNote(req, res) {
+  return Group.findOne({
+      'name': 'dream'
+    }, "-_id note").exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

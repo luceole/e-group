@@ -6,6 +6,7 @@ import * as auth from '../../auth/auth.service';
 
 var router = express.Router();
 
+router.get('/note', controller.showNote);
 router.get('/', controller.index);
 router.get('/isopen', auth.isAuthenticated(), controller.isopen);
 router.get('/:id', controller.show);

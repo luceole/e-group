@@ -8,7 +8,7 @@ export class NoteComponent {
   /*@ngInject*/
   constructor(Group, Auth, $uibModalInstance, grp) {
     //'ngInject';
-    this.groupe = grp
+    this.groupe = grp;
     this.Auth = Auth;
     this.options = {
       language: 'fr',
@@ -19,18 +19,16 @@ export class NoteComponent {
     };
     this.isAdmin = Auth.isAdmin;
     this.isAdmin_grp = Auth.isAdmin_grp;
-    this.isAdminOf = this.Auth.getCurrentUserSync().adminOf.find(o => o._id === this.groupe._id)
+    this.isAdminOf = this.Auth.getCurrentUserSync().adminOf.find(o => o._id === this.groupe._id);
     this.$uibModalInstance = $uibModalInstance;
     this.msg = "";
   }
-
 
   cancel() {
     this.$uibModalInstance.dismiss('cancel');
   };
 
   save() {
-
     this.Auth.updateGroup(this.groupe._id, this.groupe)
       .then((r) => {
         this.$uibModalInstance.close();
@@ -40,13 +38,11 @@ export class NoteComponent {
         this.msg = "Erreur :" + err.statusText;
       });
   };
-
-
 }
 
 export class MainController {
   /* @ngInject */
-  constructor($http, $scope, $state, $stateParams, $cookies, $window, socket, $uibModal, Auth, Group) {
+  constructor($http, $scope, $state, $stateParams, $cookies, $window, socket, appConfig, $uibModal, Auth, Group) {
     this.$http = $http;
     this.$cookies = $cookies;
     this.$window = $window;
@@ -59,9 +55,12 @@ export class MainController {
     this.isActif = Auth.isActif;
     this.$uibModal = $uibModal;
     this.OauthActif = true;
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
-    });
+    this.DeviseSite = appConfig.DeviseSite || "Eco-système ";
+    this.TitreSite = appConfig.TitreSite || "Libre Communaute";
+    alert(appConfig.TitreSite)
+    /* $scope.$on('$destroy', function () {
+       socket.unsyncUpdates('thing');
+     });*/
   }
 
   openNote(grp) {
@@ -78,7 +77,6 @@ export class MainController {
   }
 
   openPad(grp) {
-
     console.log(this.getCurrentUser());
     var auhorID = this.getCurrentUser().authorPadID;
     this.$http.post('/api/pads', {

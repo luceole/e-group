@@ -1,6 +1,17 @@
 $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~font-awesome/scss/font-awesome';
 
+.app-modal-window .modal-dialog {
+  width: 98%;
+  height: 92%;
+  padding: 0;
+}
+
+.app-modal-window .modal-content {
+  width: 98%;
+  height: 99%;
+}
+
 
 .thing-form {
   margin: 20px 0;

@@ -11,6 +11,8 @@ import config from './config/environment';
 import http from 'http';
 
 
+global.DeviseSite = config.DeviseSite || "Devise";
+global.TitreSite = config.TitreSite || "Titre";
 // Etherpad ?
 if (config.etherpad) {
   var ether_api = require('etherpad-lite-client');

@@ -8,6 +8,8 @@
 module.exports = {
   DOMAIN: 'http://localhost:9000',
   SESSION_SECRET: 'ecommunaut-secret',
+  TitreSite: "Libre Communauté",
+  DeviseSite: "Eco-Système Libre",
   /*
    etherpad: {
    apikey: 'ab5bf2',
