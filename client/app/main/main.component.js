@@ -55,9 +55,8 @@ export class MainController {
     this.isActif = Auth.isActif;
     this.$uibModal = $uibModal;
     this.OauthActif = true;
-    this.DeviseSite = appConfig.DeviseSite || "Eco-système ";
+    this.DeviseSite = appConfig.DeviseSite || "Eco-système Libre";
     this.TitreSite = appConfig.TitreSite || "Libre Communaute";
-    alert(appConfig.TitreSite)
     /* $scope.$on('$destroy', function () {
        socket.unsyncUpdates('thing');
      });*/
