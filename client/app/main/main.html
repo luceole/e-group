@@ -1,3 +1,6 @@
+
+
+
 <div ng-show="!$ctrl.isLoggedIn()">
   <header class="hero-unit" id="banner">
     <div class="container">
@@ -39,10 +42,57 @@
       </table>
 
 
-      <div ng-if="false ">Agenda de vos groupes
-        <button ng-click="refreshEvents() ">Recharger </button>
-        <div ui-calendar="uiConfig.calendar " id="calendar " class="span8 calendar " ng-model="eventSources " calendar="myCalendar " calendar-watch-event="watchColor "></div>
-      </div>
+      <div ng-if="true ">Agenda de vos groupes
+        <br>{{$ctrl.calendarTitle}}<br>
+        <div class="btn-group">
+             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'year'" ng-click="$ctrl.cellIsOpen = false">Année</label>
+             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'month'" ng-click="$ctrl.cellIsOpen = false">Mois</label>
+             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'week'" ng-click="$ctrl.calendarTitle="";$ctrl.cellIsOpen = false">Semaine</label>
+             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'day'" ng-click="$ctrl.cellIsOpen = false">Jour</label>
+           </div>
+
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="$ctrl.viewDate"
+          decrement="$ctrl.calendarView">
+          <<
+        </button>
+
+        <button
+          class="btn btn-default"
+          mwl-date-modifier
+          date="$ctrl.viewDate"
+          set-to-today>
+          Aujourd'hui
+        </button>
+
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="$ctrl.viewDate"
+          increment="$ctrl.calendarView">
+          >>
+        </button>
+
+
+        <mwl-calendar
+            events="$ctrl.events"
+            view="$ctrl.calendarView"
+            v  view-title="$ctrl.calendarTitle"
+            view-date="$ctrl.viewDate"
+            on-event-click="$ctrl.eventClicked(calendarEvent)"
+            on-event-times-changed="$ctrl.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+            cell-is-open="true"
+            day-view-start="06:00"
+            day-view-end="22:59"
+            day-view-split="30"
+             day-view-time-position="hidden"
+            cell-modifier="$ctrl.groupEvents(calendarCell)"
+
+            on-timespan-click="$ctrl.timespanClicked(calendarDate, calendarCell)">
+          </mwl-calendar>
+
 
       <div init-toolbar=" ">
 
