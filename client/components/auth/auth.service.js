@@ -105,6 +105,57 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
           return safeCb(callback)(err);
         }).$promise;
     },
+    eventsofgroup(id, callback) {
+      var cb = callback || angular.noop;
+      return Group.eventsofgroup({
+          id: id
+        },
+        function (data) {
+          return safeCb(data);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
+    eventparticipate(id, ev, callback) {
+      var cb = callback || angular.noop;
+      return Groupe.eventparticipate({
+          id: id
+        }, ev,
+        function (data) {
+          return safeCb(data);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
+    eventupdate: function (id, ev, callback) {
+      var cb = callback || angular.noop;
+      return Groupe.eventupdate({
+          id: id
+        }, ev,
+        function (data) {
+          return cb(data);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
+    eventdelete: function (id, ev, callback) {
+      var cb = callback || angular.noop;
+      return Groupe.eventdelete({
+          id: id
+        }, ev,
+        function (data) {
+          return cb(data);
+        },
+        function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+    },
+
+
+
     /**
      * Create a new user
      *

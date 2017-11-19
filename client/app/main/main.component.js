@@ -53,8 +53,17 @@ export class MainController {
     this.socket = socket;
     this.Auth = Auth;
     this.Group = Group;
-    this.calendarView = 'month';
+    this.calendarView = 'week';
     this.viewDate = new Date();
+    this.isLoggedIn = Auth.isLoggedInSync;
+    this.isAdmin = Auth.isAdminSync;
+    this.getCurrentUser = Auth.getCurrentUserSync;
+    this.isActif = Auth.isActif;
+    this.$uibModal = $uibModal;
+    this.OauthActif = true;
+    this.DeviseSite = appConfig.DeviseSite || "Eco-système Libre";
+    this.TitreSite = appConfig.TitreSite || "Libre Communaute";
+    
     //this.viewDate = moment().startOf('month').toDate();
 
     calendarConfig.dateFormatter = 'moment'; // use moment instead of angular for formatting dates
@@ -65,15 +74,16 @@ export class MainController {
 
     var actions = [{
       label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
-      onClick: function(args) {
+      onClick: function (args) {
         alert('Edited', args.calendarEvent);
       }
     }, {
       label: '<i class=\'glyphicon glyphicon-remove\'></i>',
-      onClick: function(args) {
+      onClick: function (args) {
         alert('Deleted', args.calendarEvent);
       }
     }];
+
     this.events = [{
         title: 'Evenement de test!', // The title of the event
         startsAt: new Date(2017, 10, 10, 10), // A javascript date object for when the event starts
@@ -89,64 +99,85 @@ export class MainController {
         title: 'Evenement  2 test reda only!', // The title of the event
         startsAt: new Date(2017, 10, 10, 16), // A javascript date object for when the event starts
         endsAt: new Date(2017, 10, 10, 18), // Optional - a javascript date object for when the event ends
-      //  draggable: true, //Allow an event to be dragged and dropped
+        //  draggable: true, //Allow an event to be dragged and dropped
         //resizable: true, //Allow an event to be resizable
         allDay: false, // set to true to display the event as an all day event on the day view
-          color: calendarConfig.colorTypes.error,
-           type: 'warning'
-      //  actions: actions,
-    },
-    {
-      title: 'Evenement  3 test read only!', // The title of the event
-      startsAt: new Date(2017, 10, 10, 12), // A javascript date object for when the event starts
-      endsAt: new Date(2017, 10, 10, 13), // Optional - a javascript date object for when the event ends
-    //  draggable: true, //Allow an event to be dragged and dropped
-      //resizable: true, //Allow an event to be resizable
-      allDay: false, // set to true to display the event as an all day event on the day view
         color: calendarConfig.colorTypes.error,
-         type: 'warning',
-    //  actions: actions,
-    }
+        type: 'warning'
+        //  actions: actions,
+      },
+      {
+        title: 'Evenement  3 test read only!', // The title of the event
+        startsAt: new Date(2017, 10, 10, 12), // A javascript date object for when the event starts
+        endsAt: new Date(2017, 10, 10, 13), // Optional - a javascript date object for when the event ends
+        //  draggable: true, //Allow an event to be dragged and dropped
+        //resizable: true, //Allow an event to be resizable
+        allDay: false, // set to true to display the event as an all day event on the day view
+        color: calendarConfig.colorTypes.error,
+        type: 'warning',
+        //  actions: actions,
+      }
     ];
+    //this.events=[];
     var actions = [{
         label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
-        onClick: function(args) {
+        onClick: function (args) {
           alert.show('Edited', args.calendarEvent);
         }
       },
       {
         label: '<i class=\'glyphicon glyphicon-remove\'></i>',
-        onClick: function(args) {
+        onClick: function (args) {
           alert.show('Deleted', args.calendarEvent);
         }
       }
     ];
-    this.isLoggedIn = Auth.isLoggedInSync;
-    this.isAdmin = Auth.isAdminSync;
-    this.getCurrentUser = Auth.getCurrentUserSync;
-    this.isActif = Auth.isActif;
-    this.$uibModal = $uibModal;
-    this.OauthActif = true;
-    this.DeviseSite = appConfig.DeviseSite || "Eco-système Libre";
-    this.TitreSite = appConfig.TitreSite || "Libre Communaute";
-
-
+    
     /* $scope.$on('$destroy', function () {
        socket.unsyncUpdates('thing');
      });*/
   }
 
-  groupEvents = function(cell) {
-       cell.groups = {};
-       cell.events.forEach(function(event) {
-         cell.groups[event.type] = cell.groups[event.type] || [];
-         cell.groups[event.type].push(event);
-       });
-     };
+  initCalendar() {
+    this.userMemberOf = this.getCurrentUser().memberOf; 
+    //console.log(this.userMemberOf)
+    var Auth=this.Auth;
+    var events=this.events;
+    angular.forEach(this.userMemberOf, function (grp, index) {
+     // console.log(grp)
+      var ev={};
+      Auth.eventsofgroup(grp._id)
+        .then(function (data) {
+          angular.forEach(data, function (e, index) {
+          ev={
+            title:  e.title, // The title of the event
+            startsAt: new Date(e.start), // A javascript date object for when the event starts
+          //  endsAt:  (e.end)?new Date(e.end):undefined,// Optional - a javascript date object for when the event ends
+            draggable: true, //Allow an event to be dragged and dropped
+            resizable: true, //Allow an event to be resizable
+            allDay: e.allDay, // set to true to display the event as an all day event on the day view
+          }
+          console.log(ev)
+          events.push(ev)
+        });
+
+        });
+    })
+  }
+  
+  groupEvents(cell) {
+    
+   /*  cell.groups = {};
+    console.log(cell)
+    cell.events.forEach(function (event) {
+      cell.groups[event.type] = cell.groups[event.type] || [];
+      cell.groups[event.type].push(event);
+    }); */
+  };
 
 
-  eventClicked = function(event) {
-  //  alert('Clicked', event);
+  eventClicked(event) {
+    //  alert('Clicked', event);
   };
 
   openNote(grp) {
@@ -155,7 +186,7 @@ export class MainController {
       controller: NoteComponent,
       controllerAs: "NC",
       resolve: {
-        grp: function() {
+        grp: function () {
           return grp;
         }
       }
@@ -174,7 +205,7 @@ export class MainController {
         this.$cookies.put('sessionID', data.sessionID);
         this.$window.open('//localhost:9001/p/' + grp.groupPadID + "$" + grp.name + "?userName=" + this.getCurrentUser().name);
       } else alert("Pad  non trouvé ou vous n'êtes pas autorisé");
-    }).error(function(err) {
+    }).error(function (err) {
       console.log("err :" + err)
       alert("Serveur Pad  non actif");
     });
@@ -185,10 +216,10 @@ export default angular.module('eGroup.main', [uiRouter, require('angular-bootstr
 
   //.constant('moment', require('moment-timezone'))
   .config(routing)
-  .config(['calendarConfig', function(calendarConfig) {
+  .config(['calendarConfig', function (calendarConfig) {
 
     //calendarConfig.dateFormatter = 'moment'; // use moment to format dates
-    console.log(calendarConfig);
+    // console.log(calendarConfig);
   }])
   .component('main', {
     template: require('./main.html'),

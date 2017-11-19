@@ -45,8 +45,8 @@ export function create(req, res) {
       var token = jwt.sign({
         _id: user._id
       }, config.secrets.session, {
-        expiresIn: 60 * 60 * 5
-      });
+          expiresIn: 60 * 60 * 5
+        });
       res.json({
         token
       });
@@ -114,8 +114,8 @@ export function me(req, res, next) {
   var userId = req.user._id;
 
   return User.findOne({
-      _id: userId
-    }, '-salt -password')
+    _id: userId
+  }, '-salt -password')
     .populate('memberOf', 'info note  groupPadID name')
     .populate('adminOf', 'info note groupPadID name')
     .exec()

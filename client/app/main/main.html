@@ -1,6 +1,3 @@
-
-
-
 <div ng-show="!$ctrl.isLoggedIn()">
   <header class="hero-unit" id="banner">
     <div class="container">
@@ -10,9 +7,12 @@
     </div>
   </header>
   <center>
-    pour utiliser ce service.<br> Vous devez avoir un compte<br>
+    pour utiliser ce service.
+    <br> Vous devez avoir un compte
+    <br>
     <a href="http://localhost:3000">Libre-Communauté
-  </center></a>
+  </center>
+  </a>
 </div>
 
 <div class="container" ng-if="$ctrl.isLoggedIn()">
@@ -29,8 +29,10 @@
       <table class="table table-striped ">
         <tr dir-paginate="group in $ctrl.getCurrentUser().memberOf | orderBy: 'name'| filter:search:strict | itemsPerPage : '12' ">
           <td>
-            <button class="btn  btn-default btn-sm btn-primary" ng-click="$ctrl.openNote(group)"><span class="glyphicon .glyphicon-info-sign"></span>Informations </button>
+            <button class="btn  btn-default btn-sm btn-primary" ng-click="$ctrl.openNote(group)">
+              <span class="glyphicon .glyphicon-info-sign"></span>Informations </button>
             <button class="btn  btn-default btn-sm  btn-primary" ng-click="$ctrl.openPad(group)">EtherPAD</button>
+            <button class="btn  btn-default btn-sm  btn-primary" ng-click="$ctrl.initCalendar()">test</button>
           </td>
           <td>
             <strong>{{group.name}}</strong>
@@ -43,72 +45,48 @@
 
 
       <div ng-if="true ">Agenda de vos groupes
-        <br>{{$ctrl.calendarTitle}}<br>
+        <br>
         <div class="btn-group">
-             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'year'" ng-click="$ctrl.cellIsOpen = false">Année</label>
-             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'month'" ng-click="$ctrl.cellIsOpen = false">Mois</label>
-             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'week'" ng-click="$ctrl.calendarTitle="";$ctrl.cellIsOpen = false">Semaine</label>
-             <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'day'" ng-click="$ctrl.cellIsOpen = false">Jour</label>
-           </div>
+          <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'year'" ng-click="$ctrl.cellIsOpen = false">Année</label>
+          <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'month'" ng-click=" $ctrl.cellIsOpen = false">Mois</label>
+          <label class="btn btn-primary" ng-model="$ctrl.calendarView" uib-btn-radio="'week'" ng-click="$ctrl.cellIsOpen = false">Semaine</label>
+        </div>
 
-        <button
-          class="btn btn-primary"
-          mwl-date-modifier
-          date="$ctrl.viewDate"
-          decrement="$ctrl.calendarView">
-          <<
-        </button>
+        <button class="btn btn-primary" mwl-date-modifier date="$ctrl.viewDate" decrement="$ctrl.calendarView">
+          << </button>
 
-        <button
-          class="btn btn-default"
-          mwl-date-modifier
-          date="$ctrl.viewDate"
-          set-to-today>
-          Aujourd'hui
-        </button>
+            <button class="btn btn-default" mwl-date-modifier date="$ctrl.viewDate" set-to-today>
+              Aujourd'hui
+            </button>
 
-        <button
-          class="btn btn-primary"
-          mwl-date-modifier
-          date="$ctrl.viewDate"
-          increment="$ctrl.calendarView">
-          >>
-        </button>
+            <button class="btn btn-primary" mwl-date-modifier date="$ctrl.viewDate" increment="$ctrl.calendarView">
+              >>
+            </button>
+
+            <span ng-if="$ctrl.calendarView!='week'">{{$ctrl.calendarTitle}}</span>
+            <mwl-calendar events="$ctrl.events" view="$ctrl.calendarView" view-title="$ctrl.calendarTitle" view-date="$ctrl.viewDate"
+              on-event-click="$ctrl.eventClicked(calendarEvent)" on-event-times-changed="$ctrl.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+              cell-is-open="true" day-view-start="06:00" day-view-end="22:59" day-view-split="30" day-view-time-position="hidden"
+              cell-modifier="$ctrl.groupEvents(calendarCell)" on-timespan-click="$ctrl.timespanClicked(calendarDate, calendarCell)"
+              data-ng-init="$ctrl.initCalendar()">
+            </mwl-calendar>
 
 
-        <mwl-calendar
-            events="$ctrl.events"
-            view="$ctrl.calendarView"
-            v  view-title="$ctrl.calendarTitle"
-            view-date="$ctrl.viewDate"
-            on-event-click="$ctrl.eventClicked(calendarEvent)"
-            on-event-times-changed="$ctrl.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-            cell-is-open="true"
-            day-view-start="06:00"
-            day-view-end="22:59"
-            day-view-split="30"
-             day-view-time-position="hidden"
-            cell-modifier="$ctrl.groupEvents(calendarCell)"
+            <div init-toolbar=" ">
 
-            on-timespan-click="$ctrl.timespanClicked(calendarDate, calendarCell)">
-          </mwl-calendar>
+            </div>
 
-
-      <div init-toolbar=" ">
-
+            <div class="alert alert-success " align="center " ng-if="alert.msg "> {{alert.msg}}</div>
       </div>
-
-      <div class="alert alert-success " align="center " ng-if="alert.msg "> {{alert.msg}}</div>
+      <div class="alert alert-warning " ng-if="!$ctrl.getCurrentUser().isactif "> Votre compte est en attende de validation par le modérateur </div>
     </div>
-    <div class="alert alert-warning " ng-if="!$ctrl.getCurrentUser().isactif "> Votre compte est en attende de validation par le modérateur </div>
+
   </div>
-
-</div>
-<div ng-include=" 'components/footer/footer.html' "></div>
+  <div ng-include=" 'components/footer/footer.html' "></div>
 
 
-<script type="text/ng-template " id="modalNote.html ">
-  <h3 class="modal-title "> Note du groupe: {{NC.groupe.info}}
+  <script type="text/ng-template " id="modalNote.html ">
+  <h3 class="modal-title"> Note du groupe: {{NC.groupe.info}}
     <button class="glyphicon glyphicon-remove pull-right " ng-click="NC.cancel() ">
         </button></h3>
   <div class="modal-body ">

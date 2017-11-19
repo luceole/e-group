@@ -334,11 +334,19 @@ gulp.task('watch', () => {
         .pipe(lintServerTestScripts());
 });
 
+gulp.task('lint', cb => {
+
+    runSequence(
+        [
+            'lint:scripts'
+	    ])
+	    });
+
 gulp.task('serve', cb => {
     runSequence(
         [
             'clean:tmp',
-            'lint:scripts',
+           // 'lint:scripts',
             'inject',
             'copy:fonts:dev',
             'env:all'
